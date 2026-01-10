@@ -1,55 +1,33 @@
-import sys
+import sys 
 
-class item:
-    def __init__(self,weight,value):
-        self.weight = weight
-        self.value = value
-
-input = sys.stdin.readline
-
-N, W = map(int, sys.stdin.readline().split())
-
-items = []
-
-for _ in range(N):
+def input():
+    return sys.stdin.readline().rstrip()
 
 
+N, K = map(int,input().split())
 
-    weight, value = map(int, input().split())
-    items.append(item(weight,value))
+burden = {}
+
+for index in range(1,N+1) :
+    line = list(map(int, input().split()))
+    burden[index] = line
+
+dp = [[0] * (K+1)  for _ in range (N+1)]
 
 
-quantity = N        # 물건 개수 
-max_w = W           # 최대 무게 
+for i in range(1,N+1) :
 
-rows = quantity + 1
+    weight = burden[i][0]
+    value = burden[i][1]
 
-cols = max_w + 1    # 무게가 0도 가능하니 
+    for w in range(0,K+1) :
 
-dp = [[0 for _ in range(cols)] for _ in range(rows)]    
+        if w >= weight :
+            dp[i][w] = max(dp[i-1][w], dp[i-1][w-weight] + value)
 
-for i in range(1,quantity+1):
-
-    current_item = items[i-1]
-    
-    for w in range(max_w+1):
-
-        
-
-        if current_item.weight > w:
+        else :
             dp[i][w] = dp[i-1][w]
 
-        else:
-
-            value_without_item = dp[i-1][w]    
-
-            value_with_item = current_item.value + dp[i-1][w-current_item.weight]
 
 
-            dp[i][w] = max(value_without_item, value_with_item)
-
-
-
-print(dp[rows-1][cols-1])
-
-
+print(dp[N][K])
