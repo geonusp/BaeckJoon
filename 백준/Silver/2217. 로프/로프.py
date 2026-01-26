@@ -5,22 +5,30 @@ def input():
 
 N = int(input())
 
+
+
 rope_list = []
 
-candidate = []
-
-res = 0 
-
 for _ in range(N) :
-    rope_list.append(int(input()))
+    line = int(input())
+    rope_list.append(line)
 
-sorted_rope_list = sorted(rope_list, reverse = True)
+sorted_rope_list = sorted(rope_list, reverse=True)
 
-for i in range(0, N) :
-    candidate.append(sorted_rope_list[i])
+length = len(rope_list)
 
-    temp = candidate[i] * len(candidate) 
-    if temp > res :
-        res = temp
+dp = [0] * (length+1)
+
+dp[0] = sorted_rope_list[0]
+
+res = dp[0]
+
+for i in range(1,length) :
+
+    dp[i] = sorted_rope_list[i] * (i+1)
+    
+    if dp[i] > res :
+            res = dp[i]
+
 
 print(res)
