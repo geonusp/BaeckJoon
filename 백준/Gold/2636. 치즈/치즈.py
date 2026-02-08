@@ -11,6 +11,8 @@ def dfs_stack(start_coor, row, col, table, visited):
 
     r, c = start_coor
 
+    visited[r][c] = True
+
     stack = [start_coor]
 
     count = 0
@@ -35,6 +37,7 @@ def dfs_stack(start_coor, row, col, table, visited):
                 count += 1
     
     return count
+
 
 row, col = map(int, input().split())
 
