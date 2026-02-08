@@ -1,5 +1,4 @@
 import sys
-from collections import deque
 
 def input():
     return sys.stdin.readline().rstrip()
@@ -7,70 +6,60 @@ def input():
 dr = [-1,1,0,0]
 dc = [0,0,-1,1]
 
+# dfs_stack 풀이
+def dfs_stack(start_coor, row, col, table, visited):
 
-def bfs(start, row, col, table) :
+    r, c = start_coor
 
-    visited = [[False] * col for _ in range(row)]
+    stack = [start_coor]
 
-    melt_count = 0
+    count = 0
 
-    deq = deque([(start)])
+    while stack :
 
-    while deq :
+        coor = stack.pop()
 
-        current = deq.popleft()
+        r, c = coor
 
-        r, c = current
+        for i in range(4) :
+            nr = r + dr[i]
+            nc = c + dc[i]
 
-        if table[r][c] == 0 :
+            if 0 <= nr < row and 0 <= nc < col and visited[nr][nc] == False and table[nr][nc] == 0 : # 외부 공기
+                visited[nr][nc] = True
+                stack.append((nr,nc))
 
-            for i in range(4) :
-                nr = r + dr[i]
-                nc = c + dc[i]
-                
-                if 0 <= nr < row and 0 <= nc < col and table[nr][nc] == 1 and visited[nr][nc] == False : # 치즈면 녹인다(방문체크만 하고 더이상 탐색x)
-                    table[nr][nc] = 0
-                    visited[nr][nc] = True
-                    melt_count += 1
-                
-                elif 0 <= nr < row and 0 <= nc < col and table[nr][nc] == 0 and visited[nr][nc] == False : # 공기면 계속 탐색 
-                    deq.append(((nr,nc)))
-                    visited[nr][nc] = True
-
-    return melt_count
-
+            elif 0 <= nr < row and 0 <= nc < col and visited[nr][nc] == False and table[nr][nc] == 1 : # 치즈 
+                visited[nr][nc] = True
+                table[nr][nc] = 0
+                count += 1
+    
+    return count
 
 row, col = map(int, input().split())
 
-
 table = []
 
-# 테이블 세팅
-for _ in range(row) :
-    
+for _ in range(row):
     line = list(map(int, input().split()))
     table.append(line)
 
-quantity_list = []
-
-day = 0
+hour = 0 
+count_list = []
 
 while True :
-
-    quantity = 0
-
+    melting_count = 0 
+    hour += 1
     visited = [[False] * col for _ in range(row)]
-    
-    quantity += bfs((0,0), row, col, table)
-    
-    quantity_list.append(quantity)  
+    melting_count += dfs_stack((0,0), row, col, table, visited)
 
-    day += 1
-
-    if quantity_list[-1] == 0 :
+    if melting_count == 0 :
         break
 
+    count_list.append(melting_count)
+
+print(hour-1)
+print(count_list[-1])
 
 
-print(day-1)
-print(quantity_list[day-2])
+
