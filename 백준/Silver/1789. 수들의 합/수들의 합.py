@@ -5,29 +5,29 @@ def input():
 
 S = int(input())
 
-sum = 0
+num = 0
 
-sum_list = set()
+num_list = set()
 
-i = 0
+num_sum = 0
 
 while True :
 
-    i += 1
-    temp = sum + i
-    if temp > S :
-        sum_list.add(i)
-        sum_list.remove(temp-S)
-        break
-        
+    num += 1
 
-    elif temp == S :
-        sum_list.add(i)
-        sum = temp
+    num_sum += num
+
+    num_list.add(num)
+
+    if S == num_sum :
         break
 
-    elif temp < S :
-        sum_list.add(i)
-        sum = temp
+    elif S < num_sum :
+        num_list.remove(num_sum-S)
+        break
 
-print(len(sum_list))
+    elif S > num_sum :
+        continue
+
+print(len(num_list))
+
