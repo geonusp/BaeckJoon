@@ -1,68 +1,38 @@
 import sys
 
-sys.setrecursionlimit(10**6)
-
 def input():
-
     return sys.stdin.readline().rstrip()
 
-infinity = float('inf')
+positive_inf = float('inf')
 
-memo = {}
+n, k = map(int, input().split())
 
-# dp ㄱㄱ 
-# 메모이제이션 감안 
-def recur(target, sum, sorted_coin_list):
+pocket = []
 
-    global infinity
-
-    global memo
-
-
-    current_min = infinity
-    
-    for coin in sorted_coin_list :
-
-        if sum == target :
-            return 0
-        
-        if sum in memo :
-            return memo[sum]
-
-        
-
-        if (target - sum) >= coin :
-            current_min = min(recur(target, sum+coin, sorted_coin_list), current_min)
-            
-    memo[sum] = current_min + 1
-
-    return current_min + 1
-
-
-
-        
-
-            
-            
-
-
-n, k = map(int,input().split())
-
-memo[k] = 0
-
-coin_list = []
-
-for _ in range (n) :
+for _ in range(n) :
     line = int(input())
-    coin_list.append(line)
+    pocket.append(line)
 
-sorted_coin_list = sorted(coin_list) # 오름차순 정렬 
+memo = [positive_inf] * (k+1)
 
+memo[0] = 0
 
-res = recur(k, 0, sorted_coin_list)
+res = 0
 
-if res != infinity :
-    print(res)
+for target in range(1, k+1) :
+    
+    for i in range(len(pocket)) :
 
-else :
+        
+        prev = target - pocket[i]
+        
+        if prev >= 0 :
+            res = memo[prev] + 1
+
+            if res < memo[target] :
+                memo[target] = res
+
+if memo[k] == positive_inf :
     print(-1)
+else :
+    print(memo[k])
