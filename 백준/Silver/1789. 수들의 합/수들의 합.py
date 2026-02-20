@@ -5,29 +5,30 @@ def input():
 
 S = int(input())
 
-num = 0
+start = 1 # 자연수의 개수 
+end = S
+res = 0
 
-num_list = set()
+while start <= end :
+    mid = (start+end) // 2
+    sum_mid = (mid*(mid+1)) // 2   # 1부터 mid 까지 합 
 
-num_sum = 0
+    if sum_mid > S :
+        end = mid - 1
 
-while True :
-
-    num += 1
-
-    num_sum += num
-
-    num_list.add(num)
-
-    if S == num_sum :
+    elif sum_mid == S :
+        res = mid 
         break
 
-    elif S < num_sum :
-        num_list.remove(num_sum-S)
-        break
+    elif sum_mid < S :
+        start = mid + 1
+        res = mid 
+        
 
-    elif S > num_sum :
-        continue
 
-print(len(num_list))
+print(res)
+
+
+
+
 
