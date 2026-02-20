@@ -17,20 +17,18 @@ memo = [positive_inf] * (k+1)
 
 memo[0] = 0
 
-res = 0
+for i in range(1,k+1) :
 
-for target in range(1, k+1) :
-    
-    for i in range(len(pocket)) :
+    for j in range(len(pocket)) :
 
-        
-        prev = target - pocket[i]
-        
+        prev = i - pocket[j]
+
         if prev >= 0 :
-            res = memo[prev] + 1
+            temp = memo[prev] + 1
 
-            if res < memo[target] :
-                memo[target] = res
+            if temp < memo[i] :
+                memo[i] = temp
+
 
 if memo[k] == positive_inf :
     print(-1)
