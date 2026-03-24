@@ -1,46 +1,43 @@
-import sys
-from itertools import combinations 
+import sys 
+from itertools import combinations
+
+def is_full_and_res(a, b, s_list, s) :
+    if 0 < a <= H and 0 < b <= W :
+        s_list.append(s)
 
 def input():
     return sys.stdin.readline().rstrip()
-
-
-def is_full_and_res(a, b,s) :
-     
-    if 0 < a <= H and 0 < b <= W : 
-            ans_list.append(s)
-     
 
 H, W = map(int, input().split())
 
 N = int(input())
 
-candi = []
+stickers = []
 
 for _ in range(N) :
     line = tuple(map(int, input().split()))
-    candi.append(line)
+    stickers.append(line)
 
-can = list(combinations(candi, 2))
 
-# 탐색 -> 스티커들 크기되는지 + 범위 안넘는지 -> 스티커 넣기 mCn
+two = list(combinations(stickers, 2))
 
-ans_list = [0] # 안전 장치(스티커 하나도 못넣을때를 대비)
+s_list = [0]
 
-for item in can :
+for pair in two :
 
-    s = (item[0][0] * item[0][1]) + (item[1][0] * item[1][1])
+    sticker1 = pair[0]
+    sticker2 = pair[1]
 
-    # 1번 스티커가 가질 수 있는 모양 (원본, 회전)
-    shape1 = [(item[0][0], item[0][1]), (item[0][1], item[0][0])]
-    # 2번 스티커가 가질 수 있는 모양 (원본, 회전)
-    shape2 = [(item[1][0], item[1][1]), (item[1][1], item[1][0])]
+    shape1 = [(sticker1[0], sticker1[1]), (sticker1[1], sticker1[0])]
+    shape2 = [(sticker2[0], sticker2[1]), (sticker2[1], sticker2[0])]
 
+    s = (sticker1[0] * sticker1[1]) + (sticker2[0] * sticker2[1])
+
+    # 총 4번 
     for r1, c1 in shape1 :
         for r2, c2 in shape2 :
-            # 세로로 나란히 
-            is_full_and_res(max(r1,r2), c1 + c2, s)
-            # 가로로 나란히 
-            is_full_and_res(r1 + r2, max(c1, c2), s)
+            
+            is_full_and_res(max(r1, r2), c1+c2, s_list, s)
+            is_full_and_res(r1 + r2, max(c1, c2), s_list, s)
 
-print(max(ans_list))
+print(max(s_list))
