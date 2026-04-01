@@ -11,7 +11,7 @@ price = list(map(int, input().split()))
 
 answer = 0
 
-m = infi  # 최신 최솟값찾아내는 역할(중복제거)
+s_price = sorted(price)
 
 for i in range(len(dist)) :
     # 처음이라 특수 
@@ -20,11 +20,12 @@ for i in range(len(dist)) :
         continue
 
     # 마지막도 특수 
-    if i != len(dist) - 1 :
+    current = price.pop()
+    s_price.remove(current)
+    
+    
 
-        m = min(m,price[i],price[i+1])
-
-    answer += dist[i] * m
+    answer += dist[i] * s_price[0]
 
 print(answer)
         
