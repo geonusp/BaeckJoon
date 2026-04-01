@@ -11,21 +11,27 @@ price = list(map(int, input().split()))
 
 answer = 0
 
+price.pop()
+
 s_price = sorted(price)
 
-for i in range(len(dist)) :
+temp = []
+
+
+m = infi
+
+for i in range(len(dist)) :   # O(N)
     # 처음이라 특수 
     if i == 0 :
         answer += dist[0] * price[0]
         continue
 
     # 마지막도 특수 
-    current = price.pop()
-    s_price.remove(current)
-    
+    temp.append(price[i])
+    m = min(temp)
     
 
-    answer += dist[i] * s_price[0]
+    answer += dist[i] * m
 
 print(answer)
         
