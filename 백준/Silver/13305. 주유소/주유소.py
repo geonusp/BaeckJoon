@@ -11,7 +11,7 @@ price = list(map(int, input().split()))
 
 answer = 0
 
-price.pop()
+price.pop()  # 마지막 보정 
 
 s_price = sorted(price)
 
@@ -26,7 +26,6 @@ for i in range(len(dist)) :   # O(N)
         answer += dist[0] * price[0]
         continue
 
-    # 마지막도 특수 
     temp.append(price[i])
     m = min(temp)
     
