@@ -24,6 +24,7 @@ for i in range(len(dist)) :   # O(N)
     # 처음이라 특수 
     if i == 0 :
         answer += dist[0] * price[0]
+        temp.append(price[0])
         continue
 
     temp.append(price[i])
