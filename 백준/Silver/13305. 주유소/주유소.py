@@ -15,7 +15,7 @@ price.pop()  # 마지막 보정
 
 s_price = sorted(price)
 
-temp = []
+m = infi
 
 
 m = infi
@@ -24,11 +24,11 @@ for i in range(len(dist)) :   # O(N)
     # 처음이라 특수 
     if i == 0 :
         answer += dist[0] * price[0]
-        temp.append(price[0])
+        m = price[0]
         continue
 
-    temp.append(price[i])
-    m = min(temp)
+    
+    m = min(m,price[i])
     
 
     answer += dist[i] * m
