@@ -21,7 +21,7 @@ dr = [-1,0,1,0]
 dc = [0,1,0,-1]
 
 # 처음 위치 청소 
-visited = [(r,c)]
+visited = set([(r,c)])
 
 while True :
 
@@ -41,7 +41,7 @@ while True :
 
         # 범위 확인 및 벽인지 확인 
         if 0 <= nr < N and 0 <= nc < M and table[nr][nc] != 1 and (nr,nc) not in visited :
-            visited.append((nr,nc))
+            visited.add((nr,nc))
             moved = True # 중첩 반복문으로 인한 플래그 
             r = nr
             c = nc
