@@ -52,40 +52,18 @@ while True :
 
     # 주변 4칸중 모두 청소할 곳 없을때 
     # 4방향 모두 방향갱신되면 원래방향이라 d 갱신 할 필요없음 
-    if d == 0 :
-        rr = r + 1
-        rc = c
-        if 0 <= rr < N and 0 <= rc < M and table[rr][rc] != 1 :
-            r = rr
-            c = rc
-        else :
-            break
+    rd = (d+2) % 4
 
-    elif d == 1 :
-        rr = r
-        rc = c - 1
-        if 0 <= rr < N and 0 <= rc < M and table[rr][rc] != 1 :
-            r = rr
-            c = rc
-        else :
-            break
+    rr = r + dr[rd]
+    rc = c + dc[rd]
 
-    elif d == 2 :
-        rr = r - 1
-        rc = c
-        if 0 <= rr < N and 0 <= rc < M and table[rr][rc] != 1 :
-            r = rr
-            c = rc
-        else :
-            break
+    if 0 <= rr < N and 0 <= rc < M and table[rr][rc] != 1 : # 후진할 곳있을때 
+        r = rr 
+        c = rc
 
-    elif d == 3 :
-        rr = r 
-        rc = c + 1
-        if 0 <= rr < N and 0 <= rc < M and table[rr][rc] != 1 :
-            r = rr
-            c = rc
-        else :
-            break
+    else :
+        break
+
+
 
 print(len(visited))
