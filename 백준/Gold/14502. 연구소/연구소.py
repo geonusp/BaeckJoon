@@ -40,10 +40,14 @@ for _ in range(N) :
 
 walls = []
 
+virus = []
+
 for i in range(N) :
     for j in range(M) :
         if table[i][j] == 0 :
             walls.append((i,j))
+        elif table[i][j] == 2 :
+            virus.append((i,j))
 
 c_walls = combinations(walls,3)
 
@@ -63,10 +67,10 @@ for w1,w2,w3 in c_walls :
         table[w3[0]][w3[1]] = 1
 
     # 바이러스퍼뜨리기 (bfs)
-    for i in range(N) :
-        for j in range(M) :
-            if table[i][j] == 2 : # TODO 최적화 고려 
-                table = bfs((i,j), N, M, table)
+    for r,c in virus :
+        bfs((r,c),N,M, table)
+
+
 
 
     # 0인곳 세기
