@@ -47,7 +47,7 @@ for _ in range(N) :
     line = list(map(int, input().split()))
     table.append(line)
 
-table_init = copy.deepcopy(table)  # 초기테이블 저장
+table_init = [row[:] for row in table] # 초기테이블 저장
 
 # N, M 이 최대 8이라 널널한 편 
 # 64P3 (x) 64C3 (o)
@@ -95,7 +95,7 @@ for w1,w2,w3 in wall_c :
     candi = max(count, candi)
 
     # 백트래킹 
-    table = copy.deepcopy(table_init)
+    table = [row[:] for row in table_init] 
     visited = [[False] * M for _ in range(N)]
     
     
