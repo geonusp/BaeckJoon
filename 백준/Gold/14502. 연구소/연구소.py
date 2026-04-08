@@ -1,41 +1,30 @@
 import sys
 
-import copy
-
-from collections import deque
 from itertools import combinations
+from collections import deque
 
 def input():
     return sys.stdin.readline().rstrip()
 
 def bfs(start, N, M, table) :
 
-    r, c = start
-
-    global visited
-
-    table[r][c] = 2
-
-    deq = deque([(r,c)])
+    deq = deque([(start)])
 
     dr = [-1,1,0,0]
     dc = [0,0,-1,1]
 
-
-
     while deq :
 
-        r, c = deq.popleft() 
+        r, c = deq.popleft()
 
         for i in range(4) :
             nr = r + dr[i]
             nc = c + dc[i]
 
-            # 테이블로 어차피 방문표시할거라 
             if 0 <= nr < N and 0 <= nc < M and table[nr][nc] == 0 :
-                visited[nr][nc] = True
-                deq.append((nr,nc))
                 table[nr][nc] = 2
+                deq.append((nr,nc))
+
     return table
 
 # 행 열 
@@ -47,56 +36,49 @@ for _ in range(N) :
     line = list(map(int, input().split()))
     table.append(line)
 
-table_init = [row[:] for row in table] # 초기테이블 저장
+# max(64C3 * O(V+E), 64C3 * O(N^2)) 
 
-# N, M 이 최대 8이라 널널한 편 
-# 64P3 (x) 64C3 (o)
-# 탐색 시간 
-# 퍼지는 시간 (dfs 나 bfs) (N^^2)
-
-visited = [[False] * M for _ in range(N)]
-
-# 0~N 0~M
 walls = []
+
 for i in range(N) :
     for j in range(M) :
         if table[i][j] == 0 :
             walls.append((i,j))
 
-wall_c = list(combinations(walls, 3))
+c_walls = combinations(walls,3)
 
-candi = -1
+ans = -1
 
-for w1,w2,w3 in wall_c :
+table_init = [row[:]for row in table]
+
+# 벽 3개 랜덤으로 뽑아서 순회
+for w1,w2,w3 in c_walls :
 
     count = 0
 
-    # 벽세우기 
+    # 벽 3개 세우기
     if table[w1[0]][w1[1]] == 0 and table[w2[0]][w2[1]] == 0 and table[w3[0]][w3[1]] == 0 :
         table[w1[0]][w1[1]] = 1
         table[w2[0]][w2[1]] = 1
-        table[w3[0]][w3[1]] = 1 
+        table[w3[0]][w3[1]] = 1
 
-    # 바이러스 퍼트리기 
+    # 바이러스퍼뜨리기 (bfs)
     for i in range(N) :
         for j in range(M) :
-            if visited[i][j] == False and table[i][j] == 2 :
-                visited[i][j] = True
-                table = bfs((i,j), N,M,table)
+            if table[i][j] == 2 : # TODO 최적화 고려 
+                table = bfs((i,j), N, M, table)
 
 
-    # 안전영역 개수세서 candi리스트에다가 넣어두기 
+    # 0인곳 세기
     for i in range(N) :
         for j in range(M) :
             if table[i][j] == 0 :
                 count += 1
+    # 갱신 
+    ans = max(count, ans)
+    # 백트래킹
+        # 테이블복구
+    table = [row[:] for row in table_init]
 
-    # 최솟값 갱신 
-    candi = max(count, candi)
 
-    # 백트래킹 
-    table = [row[:] for row in table_init] 
-    visited = [[False] * M for _ in range(N)]
-    
-    
-print(candi)
+print(ans)
