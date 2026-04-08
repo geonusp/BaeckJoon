@@ -8,9 +8,11 @@ from itertools import combinations
 def input():
     return sys.stdin.readline().rstrip()
 
-def bfs(start, visited, N, M, table) :
+def bfs(start, N, M, table) :
 
     r, c = start
+
+    global visited
 
     table[r][c] = 2
 
@@ -31,6 +33,7 @@ def bfs(start, visited, N, M, table) :
 
             # 테이블로 어차피 방문표시할거라 
             if 0 <= nr < N and 0 <= nc < M and table[nr][nc] == 0 :
+                visited[nr][nc] = True
                 deq.append((nr,nc))
                 table[nr][nc] = 2
     return table
@@ -57,7 +60,8 @@ visited = [[False] * M for _ in range(N)]
 walls = []
 for i in range(N) :
     for j in range(M) :
-        walls.append((i,j))
+        if table[i][j] == 0 :
+            walls.append((i,j))
 
 wall_c = list(combinations(walls, 3))
 
@@ -77,7 +81,8 @@ for w1,w2,w3 in wall_c :
     for i in range(N) :
         for j in range(M) :
             if visited[i][j] == False and table[i][j] == 2 :
-                table = bfs((i,j),visited, N,M,table)
+                visited[i][j] = True
+                table = bfs((i,j), N,M,table)
 
 
     # 안전영역 개수세서 candi리스트에다가 넣어두기 
